@@ -25,7 +25,8 @@ bool Item::equal(const Item &item)
 
 string Item::toString() const
 {
-    string s=this->left+"->";
+    string s=std::to_string(number)+":  ";
+    s+=this->left+"->";
     size_t i;
     for(i=0;i<this->flag;i++)
         s+=this->rigth[i];

@@ -21,37 +21,19 @@ DFA::DFA(const Grammar &grammar)
    this->startFlag=grammar.getStratFlag();
    unsigned int Scount=0;
    bool SFlag=false;
+
+
+    Item item_S;
+    item_S.left = "S'";
+    item_S.rigth = startFlag;
+    item_S.flag = 0;
+    startFlag = "S'";
+    item_S.number=itemSet.size();
+    itemSet.push_back(item_S);
+    startItem=item_S;
+
     for(auto v:RulesSet)
     {
-        if(!SFlag)
-            for(char c:v.rigth) {
-                if (this->startFlag == (c + "")) {
-                    SFlag=true;
-                    Item item_S;
-                    item_S.left = "S'";
-                    item_S.rigth = startFlag;
-                    item_S.flag = 0;
-                    startFlag = "S'";
-                    item_S.number=itemSet.size();
-                    itemSet.push_back(item_S);
-                    startItem=item_S;
-                    break;
-                }
-            }
-        if(!SFlag&&v.left==startFlag&&Scount>0)
-        {
-            Scount++;
-            SFlag=true;
-            Item item_S;
-            item_S.left = "S'";
-            item_S.rigth = startFlag;
-            item_S.flag = 0;
-            startFlag = "S'";
-            item_S.number=itemSet.size();
-            itemSet.push_back(item_S);
-            startItem=item_S;
-        }else if(v.left==startFlag)
-            Scount++;
 
         Item item;
         item.left=v.left;
@@ -59,8 +41,6 @@ DFA::DFA(const Grammar &grammar)
         item.flag=0;
         item.number=itemSet.size();
         itemSet.push_back(item);
-        if(!SFlag&&grammar.getStratFlag()==v.left)
-            startItem=item;
     }
 
     structureDFA();
@@ -293,7 +273,7 @@ analysisFlag DFA::ACTION(int k,char c) const
     if(c=='#')
         for(Item item:status.items)
         {
-            if(item.left==startFlag&&item.flag==item.rigth.size()) {
+            if(item.left==startItem.left&&item.flag==item.rigth.size()) {
                 flag.error=false;
                 flag.s = "acc";
                 return flag;

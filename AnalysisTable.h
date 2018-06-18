@@ -8,6 +8,7 @@
 #include <map>
 #include "DFA.h"
 
+
 class AnalysisTable {
 public:
     AnalysisTable(DFA dfa);
@@ -15,6 +16,8 @@ public:
 
     bool AnalysisString(const std::string &s);
 
+    analysisFlag queryACTION(char inputChar,int statusNumber);
+    analysisFlag queryGOTO(char gotoChar,int statusNumber);
 
 
 protected:

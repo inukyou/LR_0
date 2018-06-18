@@ -75,6 +75,16 @@ void AnalysisTable::display() const
     }
 }
 
+analysisFlag AnalysisTable::queryACTION(char inputChar,int statusNumber)
+{
+    return actionTable.at(inputChar).at(statusNumber);
+}
+analysisFlag AnalysisTable::queryGOTO(char gotoChar,int statusNumber)
+{
+    return gotoTable.at(gotoChar).at(statusNumber);
+}
+
+
 
 bool AnalysisTable::AnalysisString(const string &s)
 {
@@ -85,19 +95,19 @@ bool AnalysisTable::AnalysisString(const string &s)
     list<char> charStack;
     charStack.push_back('#');
     list<char> inPutStack;
-    inPutStack.push_back('#');
-    for(auto it=s.rbegin();it!=s.rend();it++)
-        inPutStack.push_back(*it);
 
+    for(auto it=s.begin();it!=s.end();it++)
+        inPutStack.push_back(*it);
+    inPutStack.push_back('#');
 
     int count=1;
     int statusNumber;
     cout<<"步骤             状态栈                       符号栈                   输入串                    ACTION               GOTO"<<endl;
     while(true)
     {
-        char inputChar=inPutStack.back();
+        char inputChar=inPutStack.front();
         statusNumber=statusStack.back();
-        analysisFlag actionFlag=actionTable.at(inputChar).at(statusNumber);
+        analysisFlag actionFlag=queryACTION(inputChar,statusNumber);
         analysisFlag gotoFlag;
 
 /******************打印分析过程**************/
@@ -115,7 +125,7 @@ bool AnalysisTable::AnalysisString(const string &s)
                 charStack.pop_back();
             }
             statusNumber=statusStack.back();
-            gotoFlag=gotoTable.at(gotoChar).at(statusNumber);
+            gotoFlag=queryGOTO(gotoChar,statusNumber);
 
             statusStack.push_back(gotoFlag.number);
             charStack.push_back(itemSet.at(itemNumber).left[0]);
@@ -124,7 +134,7 @@ bool AnalysisTable::AnalysisString(const string &s)
             cout<<gotoFlag.display();
         }
         else if(actionFlag.s=="s") {
-            inPutStack.pop_back();
+            inPutStack.pop_front();
             charStack.push_back(inputChar);
             statusStack.push_back(actionFlag.number);
         }
@@ -164,3 +174,4 @@ void printLine(int count,list<int>statusStack,list<char> charStack,list<char> in
         cout<<" ";
     cout<<actionFlag.display();
 }
+

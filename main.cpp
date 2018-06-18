@@ -17,8 +17,8 @@ int main() {
     Grammar grammar=textTogrammar(path);
 
 
-
-    /*grammar.addRules("S","E");
+/*
+    grammar.addRules("S","E");
     grammar.addRules("E","aA");
     grammar.addRules("E","bB");
     grammar.addRules("A","cA");
@@ -36,11 +36,12 @@ int main() {
 
 /*
     grammar.addRules("S","aAcBe");
+    grammar.addRules("S","")
     grammar.addRules("A","b");
     grammar.addRules("A","Ab");
     grammar.addRules("B","d");*/
 
-    grammar.setStartFlag("S");
+    grammar.setStartFlag("E");
 
     DFA dfa(grammar);
     dfa.showDFA();
