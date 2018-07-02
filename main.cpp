@@ -41,13 +41,23 @@ int main() {
     grammar.addRules("A","Ab");
     grammar.addRules("B","d");*/
 
-    grammar.setStartFlag("E");
+    string startFlag="S";
+    cout<<"please input the StartFlag: ";
+    cin>>startFlag;
+    cout<<endl<<endl;
+    grammar.setStartFlag(startFlag);
 
     DFA dfa(grammar);
     dfa.showDFA();
     AnalysisTable analysisTable(dfa);
     analysisTable.display();
-    analysisTable.AnalysisString("bccd");
+
+    string input="";
+    cout<<endl<<endl;
+    cout<<"please input the inputString:";
+    cin>>input;
+    cout<<endl<<endl;
+    analysisTable.AnalysisString(input);
     return 0;
 
 }
